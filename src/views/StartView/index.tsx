@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ImageComponent from "../../components/ImageComponent";
 import ButtonComponent from "../../components/ButtonComponent";
 import BottomSticks from "../../components/stick/BottomStick";
@@ -7,6 +8,7 @@ import TopSticks from "../../components/stick/TopStick";
 const StartPageView: React.FC = () => {
   const [hovered, setHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -14,7 +16,7 @@ const StartPageView: React.FC = () => {
 
   const handleClick = () => {
     console.log("Game Started!");
-    // Add navigation or game start logic
+    // navigate("/game");
   };
 
   const handleMouseEnter = () => {

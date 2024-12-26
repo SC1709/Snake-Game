@@ -1,6 +1,7 @@
 import React from "react";
 import ImageComponent from "../../components/ImageComponent";
 import TopSticks from "../../components/stick/TopStick";
+import QuestionCard from "../../components/QuestionCard";
 
 const GameView: React.FC = () => {
   return (
@@ -13,6 +14,15 @@ const GameView: React.FC = () => {
             alt="Top Right Stick"
           />
         </div>
+        <QuestionCard
+          text="Who is the father of Indian Navy?"
+          imageSrc="src/Resources/Images/1.png"
+          imageAlt="Number 1"
+        />
+
+
+
+
         <div className="flex flex-col items-center mt-[450px] relative ">
           {/* Top Sticks */}
           <TopSticks className="stick2 flex justify-start mb-0  w-full h-[28px] relative" />
