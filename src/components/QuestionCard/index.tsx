@@ -13,7 +13,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   text,
   imageSrc,
   imageAlt,
-  imageClassName = "w-[79px] h-[79px] absolute mr-2",
+  imageClassName = "w-[78px] h-[78px] absolute mr-2",
 }) => {
   return (
     <div className="absolute left-[calc(50%-355px/2-11px)] w-[355px] h-[79px]  top-[158px] text-center">
@@ -26,7 +26,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       </div>
 
       <div className="relative w-[318px] h-[71px] left-[37px] py-[5px] px-0 gap-0 rounded-[25px] border-[3px] border-white">
-            <p className="font-[Lexend] text-[24px] font-semibold leading-[30px] text-center text-white w-[318px] h-[60px] ">
+            <p className=" font-[Lexend] text-[24px] font-semibold leading-[30px] text-center text-white w-[318px] h-[60px] ">
               {text}
             </p>
           </div>

@@ -16,7 +16,7 @@ const StartPageView: React.FC = () => {
 
   const handleClick = () => {
     console.log("Game Started!");
-    // navigate("/game");
+    navigate("/game");
   };
 
   const handleMouseEnter = () => {
@@ -58,7 +58,7 @@ const StartPageView: React.FC = () => {
                 ? "src/Resources/Images/hoverButton.png"
                 : "src/Resources/Images/button.png"
             }
-            className="w-[120px] h-[36px] transform transition-all duration-300"
+            className="w-[120px] h-[36px] cursor-pointer transform transition-all duration-300"
             alt="start Image"
             onClick={handleClick}
             onMouseEnter={handleMouseEnter}

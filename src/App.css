@@ -38,11 +38,11 @@
 }
 
 .slide-up-animation {
-  transition: transform 0.15s ease-in-out; 
+  transition: transform 0.2s ease-in-out; 
   transform: translateY(100%); 
 }
 
 
 .slide-up-visible {
-  transform: translateY(0); 
+  transform: translateY(-2); 
 }

@@ -2,6 +2,9 @@ import React from "react";
 import ImageComponent from "../../components/ImageComponent";
 import TopSticks from "../../components/stick/TopStick";
 import QuestionCard from "../../components/QuestionCard";
+import OptionCard from "../../components/OptionCard";
+import SnakeComponent from "../../components/SnakeComponent";
+import ButtonElementComponent from "../../components/OptionElementComponent";
 
 const GameView: React.FC = () => {
   return (
@@ -20,8 +23,25 @@ const GameView: React.FC = () => {
           imageAlt="Number 1"
         />
 
+        <OptionCard
+          text="Chhtrapati Shivaji Maharaj "
+          option="A"
+          className="h-[49px] "
+          pclassName=" bg-[#D8002F]"
+        />
+        <OptionCard
+          text="Mahatma Gandhi "
+          option="B"
+          className="h-[48.95px] top-[65.03px]"
+          pclassName=" bg-[#FFCC3E]"
+        />
 
-
+        <OptionCard
+          text="Subash Chandra Bose"
+          option="C"
+          className="h-[48.95px] top-[130.05px]"
+          pclassName=" bg-[#467966]"
+        />
 
         <div className="flex flex-col items-center mt-[450px] relative ">
           {/* Top Sticks */}
@@ -32,6 +52,20 @@ const GameView: React.FC = () => {
               className="w-[453px] h-[394px]"
               alt="Flower Decoration"
             />
+            
+            <div className="absolute  w-[188px] h-[223px] top-[126px] left-[141px] ">
+              <ButtonElementComponent text="A" className="bg-[#D8002F] left-[83px]" />
+              <ButtonElementComponent text="B" className="bg-[#FFCC3E] top-[74px]" />
+              <ButtonElementComponent text="C" className="bg-[#467966] top-[176px] left-[144px]" />
+            </div>
+
+            <ImageComponent
+              src="src/Resources/Images/stone.png"
+              className="absolute w-[128px] h-[128px] top-[217px] left-[-2px]"
+              alt="stone Decoration"
+            />
+
+            <SnakeComponent className="opacity-0" />
           </div>
         </div>
       </div>
