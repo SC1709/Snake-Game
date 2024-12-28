@@ -26,7 +26,7 @@
     top: 4px;
   }
   .slide-animation {
-    transition: transform 0.15s ease-in-out;
+    transition: transform 0.25s ease-in-out;
   }
 .slide-in {
   transform: translateX(0);
@@ -38,11 +38,40 @@
 }
 
 .slide-up-animation {
-  transition: transform 0.2s ease-in-out; 
+  transition: transform 0.25s ease-in-out; 
   transform: translateY(100%); 
 }
 
 
 .slide-up-visible {
-  transform: translateY(-2); 
+  transform: translateY(-5); 
+}
+@keyframes snakeMove {
+  0% {
+    opacity: 0;
+    transform: translateX(0); 
+  }
+  10% {
+    opacity: 1; 
+  }
+  80% {
+    opacity: 1; 
+  }
+  90% {
+    opacity: 0;
+    transform: translateX(340px); 
+  }
+  100% {
+    opacity: 0; 
+  }
+}
+
+.snake-animation-container {
+  position: absolute;
+  top: 200px; 
+  left: 39px; 
+}
+
+.snake {
+  animation: snakeMove 2s linear forwards;
 }

@@ -1,32 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import ImageComponent from "../../components/ImageComponent";
 import ButtonComponent from "../../components/ButtonComponent";
 import BottomSticks from "../../components/stick/BottomStick";
 import TopSticks from "../../components/stick/TopStick";
 
-const StartPageView: React.FC = () => {
-  const [hovered, setHovered] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const navigate = useNavigate();
+interface StartPageViewProps {
+  isVisible: boolean;
+  hovered: boolean;
+  handleMouseEnter: () => void;
+  handleMouseLeave: () => void;
+  handleClick: () => void;
+}
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const handleClick = () => {
-    console.log("Game Started!");
-    navigate("/game");
-  };
-
-  const handleMouseEnter = () => {
-    setHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setHovered(false);
-  };
-
+const StartPageView: React.FC<StartPageViewProps> = ({
+  isVisible,
+  hovered,
+  handleMouseEnter,
+  handleMouseLeave,
+  handleClick,
+}) => {
   return (
     <>
       <div className="snake-container flex flex-col items-center background-green relative overflow-hidden">

@@ -66,6 +66,11 @@ const GameView: React.FC = () => {
             />
 
             <SnakeComponent className="opacity-0" />
+            <ImageComponent
+              src="src/Resources/Images/eagle.png"
+              className="absolute w-[119px] h-[221px] top-[182px] left-[411px] "
+              alt="eagle Decoration"
+            />
           </div>
         </div>
       </div>
