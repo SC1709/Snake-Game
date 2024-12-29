@@ -6,6 +6,49 @@ import OptionCard from "../../components/OptionCard";
 import SnakeComponent from "../../components/SnakeComponent";
 import ButtonElementComponent from "../../components/OptionElementComponent";
 
+const rotateSnake = (rotation: string, targetId: string,isOptionC: boolean = false) => {
+  const snake = document.querySelector(".snake1") as HTMLElement;
+  const target = document.querySelector(`#${targetId}`) as HTMLElement;
+
+  if (snake && target) {
+    // Rotate the snake
+    snake.style.transform = `rotate(${rotation})`;
+    // Move the snake to the target button's position
+    setTimeout(() => {
+    snake.style.opacity = "1";
+
+      const targetRect = target.getBoundingClientRect();
+      const snakeRect = snake.getBoundingClientRect();
+
+      const stopBefore = 80; // Horizontal distance to stop before the button
+      const stopBelow = 40; // Vertical distance to position below the button
+      let offsetY = 0;
+
+      if (!isOptionC) {
+        offsetY = targetRect.top - snakeRect.top + stopBelow;
+      } else {
+        offsetY = targetRect.top - snakeRect.top; 
+      }
+      const offsetX = targetRect.left - snakeRect.left - stopBefore;
+
+      // Update the snake's position
+      snake.style.left = `${snake.offsetLeft + offsetX}px`;
+      snake.style.top = `${snake.offsetTop + offsetY}px`;
+      console.log(`Snake moved to below ${targetId}`);
+
+      setTimeout(() => {
+        target.classList.add("shrink-and-disappear");
+      }, 3000); 
+
+    }, 1000); 
+  }
+};
+
+const rotateSnakeA = () => rotateSnake("-20deg", "buttonA");
+const rotateSnakeB = () => rotateSnake("-17deg", "buttonB");
+const rotateSnakeC = () => rotateSnake("2deg", "buttonC",true);
+
+
 const GameView: React.FC = () => {
   return (
     <>
@@ -13,7 +56,7 @@ const GameView: React.FC = () => {
         <div className="absolute top-4 right-4 flex flex-col items-center space-y-4">
           <ImageComponent
             src="src/Resources/Images/icon.png"
-            className="w-[65px] h-[142px]  "
+            className="w-[65px] h-[142px]"
             alt="Top Right Stick"
           />
         </div>
@@ -24,51 +67,53 @@ const GameView: React.FC = () => {
         />
 
         <OptionCard
-          text="Chhtrapati Shivaji Maharaj "
+          text="Chhtrapati Shivaji Maharaj"
           option="A"
-          className="h-[49px] "
-          pclassName=" bg-[#D8002F]"
+          className="h-[49px] relative z-10"
+          pclassName=" bg-[#D8002F] "
+          onClick={rotateSnakeA}
         />
         <OptionCard
-          text="Mahatma Gandhi "
+          text="Mahatma Gandhi"
           option="B"
-          className="h-[48.95px] top-[65.03px]"
+          className="h-[48.95px] top-[65.03px] relative z-10"
           pclassName=" bg-[#FFCC3E]"
+          onClick={rotateSnakeB}
         />
-
         <OptionCard
           text="Subash Chandra Bose"
           option="C"
           className="h-[48.95px] top-[130.05px]"
           pclassName=" bg-[#467966]"
+          onClick={rotateSnakeC}
         />
 
-        <div className="flex flex-col items-center mt-[450px] relative ">
+        <div className="flex flex-col items-center mt-[450px] relative">
           {/* Top Sticks */}
-          <TopSticks className="stick2 flex justify-start mb-0  w-full h-[28px] relative" />
-          <div className=" bottom-0 bg-no-repeat bg-center bg-cover">
+          <TopSticks className="stick2 flex justify-start mb-0 w-full h-[28px] relative" />
+          <div className="bottom-0 bg-no-repeat bg-center bg-cover">
             <ImageComponent
               src="src/Resources/Images/flower.png"
               className="w-[453px] h-[394px]"
               alt="Flower Decoration"
             />
             
-            <div className="absolute  w-[188px] h-[223px] top-[126px] left-[141px] ">
-              <ButtonElementComponent text="A" className="bg-[#D8002F] left-[83px]" />
-              <ButtonElementComponent text="B" className="bg-[#FFCC3E] top-[74px]" />
-              <ButtonElementComponent text="C" className="bg-[#467966] top-[176px] left-[144px]" />
+            <div className="absolute w-[188px] h-[223px] top-[126px] left-[141px]">
+              <ButtonElementComponent id="buttonA" text="A" className="bg-[#D8002F] left-[83px]" />
+              <ButtonElementComponent id="buttonB" text="B" className="bg-[#FFCC3E] top-[74px]" />
+              <ButtonElementComponent id="buttonC" text="C" className="bg-[#467966] top-[176px] left-[144px]" />
             </div>
 
             <ImageComponent
               src="src/Resources/Images/stone.png"
-              className="absolute w-[128px] h-[128px] top-[217px] left-[-2px]"
+              className="absolute w-[128px] h-[128px] top-[217px] left-[-2px] "
               alt="stone Decoration"
             />
 
-            <SnakeComponent className="opacity-0" />
+            <SnakeComponent className="snake1 opacity-1"  />
             <ImageComponent
               src="src/Resources/Images/eagle.png"
-              className="absolute w-[119px] h-[221px] top-[182px] left-[411px] "
+              className="absolute w-[119px] h-[221px] top-[182px] left-[411px] opacity-0"
               alt="eagle Decoration"
             />
           </div>
