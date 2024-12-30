@@ -124,3 +124,7 @@
   animation: shrinkAndDisappear 1s forwards; 
 }
 
+.optionC-shrinkAndDisappear {
+  animation: shrinkAndDisappear 1s forwards;
+  transform-origin: top left !important;
+}

@@ -6,66 +6,6 @@ import OptionCard from "../../components/OptionCard";
 import SnakeComponent from "../../components/SnakeComponent";
 import ButtonElementComponent from "../../components/OptionElementComponent";
 
-// const rotateSnake = (rotation: string, targetId: string,isOptionC: boolean = false) => {
-//   const snake = document.querySelector(".snake1") as HTMLElement;
-//   const target = document.querySelector(`#${targetId}`) as HTMLElement;
-//   const eagle = document.querySelector(".eagle") as HTMLElement;
-
-//   if (snake && target) {
-//     // Rotate the snake
-//     snake.style.transform = `rotate(${rotation})`;
-//     // Move the snake to the target button's position
-//     setTimeout(() => {
-//     snake.style.opacity = "1";
-
-//       const targetRect = target.getBoundingClientRect();
-//       const snakeRect = snake.getBoundingClientRect();
-
-//       const stopBefore = 80; // Horizontal distance to stop before the button
-//       const stopBelow = 40; // Vertical distance to position below the button
-//       let offsetY = 0;
-
-//       if (!isOptionC) {
-//         offsetY = targetRect.top - snakeRect.top + stopBelow;
-//       } else {
-//         offsetY = targetRect.top - snakeRect.top; 
-//       }
-//       const offsetX = targetRect.left - snakeRect.left - stopBefore;
-
-//       // Update the snake's position
-//       snake.style.left = `${snake.offsetLeft + offsetX}px`;
-//       snake.style.top = `${snake.offsetTop + offsetY}px`;
-//       console.log(`Snake moved to below ${targetId}`);
-
-//       setTimeout(() => {
-//         target.classList.add("shrink-and-disappear");
-//       }, 3000); 
-
-//       const eagleRotation = targetId === "buttonA"
-//       ? "rotate(16deg)"
-//       : targetId === "buttonB"
-//       ? "rotate(4deg)"
-//       : "rotate(-8deg)";
-
-//     // Move the eagle to the snake's final position after rotation
-//     setTimeout(() => {
-//       eagle.style.transition = "transform 2s ease-in-out, left 3s ease-in-out, top 3s ease-in-out, opacity 1s ease-in-out";
-//       eagle.style.transform = eagleRotation;
-//       eagle.style.opacity = "1"; // Make the eagle visible
-//       const updatedSnakeRect = snake.getBoundingClientRect();
-//         const stopAbove = 80; // Horizontal distance to stop before the button
-//         const stopAfter = 40;
-//         const eagleOffsetX = updatedSnakeRect.left - eagle.getBoundingClientRect().left+stopAfter;
-//         const eagleOffsetY = updatedSnakeRect.top - eagle.getBoundingClientRect().top-stopAbove;
-
-//         eagle.style.left = `${eagle.offsetLeft + eagleOffsetX}px`;
-//         eagle.style.top = `${eagle.offsetTop + eagleOffsetY}px`;
-//     }, 2000); // Delay to allow the snake to move first
-
-//     }, 1000); 
-//   }
-// };
-
 const moveSnake = (
   rotation: string,
   targetId: string,
@@ -112,7 +52,7 @@ const moveEagle = (targetId: string) => {
         ? "rotate(16deg)"
         : targetId === "buttonB"
         ? "rotate(4deg)"
-        : "rotate(-8deg)";
+        : "rotate(-6deg)";
 
     setTimeout(() => {
       eagle.style.transition =
@@ -139,8 +79,33 @@ const makeTargetInvisible = (targetId: string) => {
 
   if (target) {
     setTimeout(() => {
+      if (targetId === "buttonC") {
+        target.classList.add("optionC-shrinkAndDisappear");
+      } else {
       target.classList.add("shrink-and-disappear");
-    }, 3000);
+      }
+    }, 3500);
+  }
+};
+const moveSnakeBack = () => {
+  const snake = document.querySelector(".snake1") as HTMLElement;
+  if (snake) {
+    const originalPosition = { left: 50, top: 261 }; // Assuming this is the original position
+    snake.style.transition = "left 3s ease-in-out, top 3s ease-in-out";
+    snake.style.left = `${originalPosition.left}px`;
+    snake.style.top = `${originalPosition.top}px`;
+    setTimeout(() => {
+      snake.style.opacity = "0"; // Fade out the snake
+    }, 1800);
+  }
+};
+
+
+const rotateSnakeMovement = ( isOptionC: boolean) => {
+  const snake = document.querySelector(".snake1") as HTMLElement;
+  if (snake) {
+    snake.style.transition = "transform 2s ease-in-out";
+    snake.style.transform = isOptionC ? "rotate(200deg)" : "rotate(140deg)"; 
   }
 };
 
@@ -154,21 +119,11 @@ const rotateSnake = (
   if (isCorrect) {
     makeTargetInvisible(targetId);
     setTimeout(() => {
-      const snake = document.querySelector(".snake1") as HTMLElement;
-      if (snake) {
-        snake.style.transition = "transform 2s ease-in-out";
-        snake.style.transform = isOptionC ? "rotate(200deg)" : "rotate(140deg)"; // Rotate the snake 180 degrees
-      }
-    }, 4000);
+      rotateSnakeMovement( isOptionC); 
+    }, 4500);
     setTimeout(() => {
-      const snake = document.querySelector(".snake1") as HTMLElement;
-      if (snake) {
-        const originalPosition = { left: 50, top: 261 }; // Assuming this is the original position
-        snake.style.transition = "left 2s ease-in-out, top 2s ease-in-out";
-        snake.style.left = `${originalPosition.left}px`;
-        snake.style.top = `${originalPosition.top}px`;
-      }
-    }, 5500); 
+      moveSnakeBack(); 
+    }, 5500);
   } else {
     setTimeout(() => moveEagle(targetId), 1500);
   }
