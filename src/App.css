@@ -128,3 +128,11 @@
   animation: shrinkAndDisappear 1s forwards;
   transform-origin: top left !important;
 }
+
+.correct-answer {
+  background-color: green !important;
+}
+
+.wrong-answer {
+  background-color: red !important;
+}

@@ -42,11 +42,45 @@ const moveSnake = (
   }
 };
 
+// const changeBackgroundColor = (
+//   e: React.MouseEvent<HTMLDivElement>,
+//   isCorrect: boolean
+// ) => {
+//   const clickedElement = e.currentTarget as HTMLElement;
+//   const newClass = isCorrect ? "correct-answer" : "wrong-answer";
+
+//   // Add the class to the clicked element
+//   clickedElement.classList.add(newClass);
+// };
+
+// const changeBackgroundColor = (
+//   e: React.MouseEvent<HTMLDivElement>,
+//   isCorrect: boolean
+// ) => {
+//   const clickedElement = e.currentTarget as HTMLElement;
+//   const options = document.querySelectorAll(".option-card"); // Assuming all options have the class "option-card"
+
+//   // Highlight the correct and clicked options
+//   options.forEach((option) => {
+//     const optionId = option.id; // Get the option's ID
+
+//     if (optionId === clickedElement.id && isCorrect) {
+//       option.classList.add("correct-answer"); // Green background for the correct option
+//     } else if (optionId === clickedElement.id && !isCorrect) {
+//       option.classList.add("wrong-answer"); // Red background for the clicked incorrect option
+//     } else if (optionId === correctAnswerId) {
+//       option.classList.add("correct-answer"); // Always highlight the correct option in green
+//     }
+//   });
+// };
+
+
 const moveEagle = (targetId: string) => {
   const snake = document.querySelector(".snake1") as HTMLElement;
   const eagle = document.querySelector(".eagle") as HTMLElement;
+  const flower = document.querySelector(".flower-image") as HTMLElement; // Ensure flower image has this class
 
-  if (snake && eagle) {
+  if (snake && eagle && flower) {
     const eagleRotation =
       targetId === "buttonA"
         ? "rotate(16deg)"
@@ -54,6 +88,7 @@ const moveEagle = (targetId: string) => {
         ? "rotate(4deg)"
         : "rotate(-6deg)";
 
+    // Move eagle to the snake
     setTimeout(() => {
       eagle.style.transition =
         "transform 2s ease-in-out, left 3s ease-in-out, top 3s ease-in-out, opacity 1s ease-in-out";
@@ -70,6 +105,33 @@ const moveEagle = (targetId: string) => {
 
       eagle.style.left = `${eagle.offsetLeft + eagleOffsetX}px`;
       eagle.style.top = `${eagle.offsetTop + eagleOffsetY}px`;
+
+      // Move both snake and eagle to the flower after eagle reaches the snake
+      setTimeout(() => {
+        const flowerRect = flower.getBoundingClientRect();
+        const snakeRect = snake.getBoundingClientRect();
+
+        const moveToFlowerX = flowerRect.left - snakeRect.left - 30;
+        const moveToFlowerY = flowerRect.top - snakeRect.top + 10;
+
+        eagle.style.transform = "rotate(20deg)";
+        snake.style.transition =
+          "transform 2s ease-in-out, left 2s ease-in-out, top 2s ease-in-out";
+        eagle.style.transition =
+          "transform 2s ease-in-out, left 2s ease-in-out, top 2s ease-in-out";
+
+        snake.style.left = `${snake.offsetLeft + moveToFlowerX}px`;
+        snake.style.top = `${snake.offsetTop + moveToFlowerY}px`;
+
+        eagle.style.left = `${eagle.offsetLeft + moveToFlowerX}px`;
+        eagle.style.top = `${eagle.offsetTop + moveToFlowerY}px`;
+
+        //Make both snake and eagle invisible
+        setTimeout(() => {
+          snake.style.opacity = "0";
+          eagle.style.opacity = "0";
+        }, 1800);
+      }, 3000);
     }, 2000);
   }
 };
@@ -82,7 +144,7 @@ const makeTargetInvisible = (targetId: string) => {
       if (targetId === "buttonC") {
         target.classList.add("optionC-shrinkAndDisappear");
       } else {
-      target.classList.add("shrink-and-disappear");
+        target.classList.add("shrink-and-disappear");
       }
     }, 3500);
   }
@@ -100,38 +162,49 @@ const moveSnakeBack = () => {
   }
 };
 
-
-const rotateSnakeMovement = ( isOptionC: boolean) => {
+const rotateSnakeMovement = (isOptionC: boolean) => {
   const snake = document.querySelector(".snake1") as HTMLElement;
   if (snake) {
     snake.style.transition = "transform 2s ease-in-out";
-    snake.style.transform = isOptionC ? "rotate(200deg)" : "rotate(140deg)"; 
+    snake.style.transform = isOptionC ? "rotate(200deg)" : "rotate(140deg)";
   }
 };
 
 const rotateSnake = (
+  e: React.MouseEvent<HTMLDivElement>,
   rotation: string,
   targetId: string,
   isCorrect: boolean,
   isOptionC: boolean = false
 ) => {
+  // changeBackgroundColor(e, isCorrect);
+
   moveSnake(rotation, targetId, isOptionC);
+  // const snakeMovementDuration = 1500; // Duration of snake movement in milliseconds
+
+  // // Change background color after snake reaches the element
+  // setTimeout(() => {
+  //   changeBackgroundColor(e, isCorrect);
+  // }, snakeMovementDuration);
+
   if (isCorrect) {
     makeTargetInvisible(targetId);
     setTimeout(() => {
-      rotateSnakeMovement( isOptionC); 
+      rotateSnakeMovement(isOptionC);
     }, 4500);
     setTimeout(() => {
-      moveSnakeBack(); 
+      moveSnakeBack();
     }, 5500);
   } else {
     setTimeout(() => moveEagle(targetId), 1500);
   }
 };
-const rotateSnakeA = () => rotateSnake("-20deg", "buttonA",true);
-const rotateSnakeB = () => rotateSnake("-17deg", "buttonB",false);
-const rotateSnakeC = () => rotateSnake("2deg", "buttonC",false,true);
-
+const rotateSnakeA = (e: React.MouseEvent<HTMLDivElement>) =>
+  rotateSnake(e, "-20deg", "buttonA", true);
+const rotateSnakeB = (e: React.MouseEvent<HTMLDivElement>) =>
+  rotateSnake(e, "-17deg", "buttonB", false);
+const rotateSnakeC = (e: React.MouseEvent<HTMLDivElement>) =>
+  rotateSnake(e, "2deg", "buttonC", false, true);
 
 const GameView: React.FC = () => {
   return (
@@ -178,14 +251,26 @@ const GameView: React.FC = () => {
           <div className="bottom-0 bg-no-repeat bg-center bg-cover">
             <ImageComponent
               src="src/Resources/Images/flower.png"
-              className="w-[453px] h-[394px]"
+              className="flower-image w-[453px] h-[394px]"
               alt="Flower Decoration"
             />
-            
+
             <div className="absolute w-[188px] h-[223px] top-[126px] left-[141px]">
-              <ButtonElementComponent id="buttonA" text="A" className="bg-[#D8002F] left-[83px]" />
-              <ButtonElementComponent id="buttonB" text="B" className="bg-[#FFCC3E] top-[74px]" />
-              <ButtonElementComponent id="buttonC" text="C" className="bg-[#467966] top-[176px] left-[144px]" />
+              <ButtonElementComponent
+                id="buttonA"
+                text="A"
+                className="bg-[#D8002F] left-[83px]"
+              />
+              <ButtonElementComponent
+                id="buttonB"
+                text="B"
+                className="bg-[#FFCC3E] top-[74px]"
+              />
+              <ButtonElementComponent
+                id="buttonC"
+                text="C"
+                className="bg-[#467966] top-[176px] left-[144px]"
+              />
             </div>
 
             <ImageComponent
@@ -194,7 +279,7 @@ const GameView: React.FC = () => {
               alt="stone Decoration"
             />
 
-            <SnakeComponent className="snake1 opacity-1"  />
+            <SnakeComponent className="snake1 opacity-1" />
             {/*rotate-[16deg] A   rotate-[4deg] B rotate-[-10deg] C  */}
             <ImageComponent
               src="src/Resources/Images/eagle.png"

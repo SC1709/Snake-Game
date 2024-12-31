@@ -5,7 +5,7 @@ interface optionProps {
   option: string;
   className?: string; 
   pclassName?: string; 
-  onClick?: () => void; // Add onClick to the interface
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void; // Add onClick to the interface
 }
 
 const OptionCard: React.FC<optionProps> = ({ text, option, className, pclassName, onClick }) => {
