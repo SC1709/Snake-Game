@@ -40,6 +40,7 @@
 .slide-up-animation {
   transition: transform 0.25s ease-in-out; 
   transform: translateY(100%); 
+  bottom: 0px;
 }
 
 
@@ -80,10 +81,10 @@
   position: absolute;
   top: 261px; 
   left: 50px; 
-  opacity: 0; /* Initially invisible */
+  opacity: 0; 
   transition: transform 2s ease, top 3s ease, left 3s ease, opacity 1s ease;
 }
-
+/* for  button element */
 @keyframes shrinkAndDisappear {
   0% {
     transform: scale(1) rotate(0deg) ; 
@@ -104,7 +105,7 @@
 
   }
   75% {
-    transform: scale(0.5) rotate(15deg) ;  /* Shrinking more with movement left */    
+    transform: scale(0.5) rotate(15deg) ;      
     width: 6px;
     height: -5px;
     background-color: green;
@@ -136,3 +137,83 @@
 .wrong-answer {
   background-color: red !important;
 }
+
+/*  Sliding Down Animation */
+@keyframes slideDown {
+  0% {
+    top: -2px;
+    transform: translateY(-100%); 
+    opacity: 0;  
+  }
+  50% {
+    transform: translateY(10px); 
+    opacity: 0.5; 
+  }
+  75% {
+    transform: translateY(20px); 
+    opacity: 0.8; 
+  }
+  100% {
+    transform: translateY(0);  
+    opacity: 1; 
+  }
+}
+
+.slide-down {
+  animation: slideDown 1s ease-out forwards;  
+}
+
+/* Sliding Right Animation */
+@keyframes slideRight {
+  0% {
+    transform: translateX(-100%); 
+    left: 0px;
+    opacity: 0; 
+  }
+  50% {
+    transform: translateX(10px); 
+    opacity: 0.5; 
+  }
+  75% {
+    transform: translateX(20px); 
+    opacity: 0.8; 
+  }
+  100% {
+    transform: translateX(0); 
+    opacity: 1; 
+  }
+}
+
+/*  animation to the OptionCard */
+.slide-right {
+  opacity: 0;
+  animation: slideRight 1s ease-out forwards; 
+  animation-delay: 1.2s;
+}
+/* Slide Left Animation */
+@keyframes slideLeft {
+  0% {
+    right: 0px;
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(10px); 
+    opacity: 0.5; 
+  }
+  75% {
+    transform: translateX(20px); 
+    opacity: 0.8; 
+  }
+  100% {
+    transform: translateX(0); 
+    opacity: 1; 
+  }
+}
+
+.slide-left {
+  opacity: 0;
+  animation: slideLeft 1s ease-out forwards;
+  animation-delay: 1.2s;
+}
+

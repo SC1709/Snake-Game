@@ -42,39 +42,6 @@ const moveSnake = (
   }
 };
 
-// const changeBackgroundColor = (
-//   e: React.MouseEvent<HTMLDivElement>,
-//   isCorrect: boolean
-// ) => {
-//   const clickedElement = e.currentTarget as HTMLElement;
-//   const newClass = isCorrect ? "correct-answer" : "wrong-answer";
-
-//   // Add the class to the clicked element
-//   clickedElement.classList.add(newClass);
-// };
-
-// const changeBackgroundColor = (
-//   e: React.MouseEvent<HTMLDivElement>,
-//   isCorrect: boolean
-// ) => {
-//   const clickedElement = e.currentTarget as HTMLElement;
-//   const options = document.querySelectorAll(".option-card"); // Assuming all options have the class "option-card"
-
-//   // Highlight the correct and clicked options
-//   options.forEach((option) => {
-//     const optionId = option.id; // Get the option's ID
-
-//     if (optionId === clickedElement.id && isCorrect) {
-//       option.classList.add("correct-answer"); // Green background for the correct option
-//     } else if (optionId === clickedElement.id && !isCorrect) {
-//       option.classList.add("wrong-answer"); // Red background for the clicked incorrect option
-//     } else if (optionId === correctAnswerId) {
-//       option.classList.add("correct-answer"); // Always highlight the correct option in green
-//     }
-//   });
-// };
-
-
 const moveEagle = (targetId: string) => {
   const snake = document.querySelector(".snake1") as HTMLElement;
   const eagle = document.querySelector(".eagle") as HTMLElement;
@@ -169,23 +136,38 @@ const rotateSnakeMovement = (isOptionC: boolean) => {
     snake.style.transform = isOptionC ? "rotate(200deg)" : "rotate(140deg)";
   }
 };
+const changeBackgroundColor = (
+  clickedElement: HTMLElement,
+  isCorrect: boolean,
+  correctAnswerId: string
+) => {
+  const correctElement = document.querySelector(`#${correctAnswerId}`) as HTMLElement;
+
+  if (isCorrect) {
+    clickedElement.classList.add("correct-answer"); 
+  } else {
+    clickedElement.classList.add("wrong-answer");
+  }
+  // Always highlight the correct option 
+  if (correctElement) {
+    correctElement.classList.add("correct-answer");
+  }
+};
 
 const rotateSnake = (
   e: React.MouseEvent<HTMLDivElement>,
   rotation: string,
   targetId: string,
   isCorrect: boolean,
+  correctAnswerId: string,
   isOptionC: boolean = false
 ) => {
-  // changeBackgroundColor(e, isCorrect);
+  const clickedElement = e.currentTarget as HTMLElement;
 
   moveSnake(rotation, targetId, isOptionC);
-  // const snakeMovementDuration = 1500; // Duration of snake movement in milliseconds
-
-  // // Change background color after snake reaches the element
-  // setTimeout(() => {
-  //   changeBackgroundColor(e, isCorrect);
-  // }, snakeMovementDuration);
+  setTimeout(() => {
+    changeBackgroundColor(clickedElement, isCorrect, correctAnswerId);
+  }, 3200);
 
   if (isCorrect) {
     makeTargetInvisible(targetId);
@@ -200,11 +182,11 @@ const rotateSnake = (
   }
 };
 const rotateSnakeA = (e: React.MouseEvent<HTMLDivElement>) =>
-  rotateSnake(e, "-20deg", "buttonA", true);
+  rotateSnake(e, "-20deg", "buttonA", true,"OptionA");
 const rotateSnakeB = (e: React.MouseEvent<HTMLDivElement>) =>
-  rotateSnake(e, "-17deg", "buttonB", false);
+  rotateSnake(e, "-17deg", "buttonB", false,"OptionA");
 const rotateSnakeC = (e: React.MouseEvent<HTMLDivElement>) =>
-  rotateSnake(e, "2deg", "buttonC", false, true);
+  rotateSnake(e, "2deg", "buttonC", false,"OptionA", true);
 
 const GameView: React.FC = () => {
   return (
@@ -226,6 +208,7 @@ const GameView: React.FC = () => {
         <OptionCard
           text="Chhtrapati Shivaji Maharaj"
           option="A"
+          id="OptionA"  
           className="h-[49px] relative z-10"
           pclassName=" bg-[#D8002F] "
           onClick={rotateSnakeA}
@@ -233,6 +216,7 @@ const GameView: React.FC = () => {
         <OptionCard
           text="Mahatma Gandhi"
           option="B"
+          id="OptionB"  
           className="h-[48.95px] top-[65.03px] relative z-10"
           pclassName=" bg-[#FFCC3E]"
           onClick={rotateSnakeB}
@@ -240,6 +224,7 @@ const GameView: React.FC = () => {
         <OptionCard
           text="Subash Chandra Bose"
           option="C"
+          id="OptionC"  
           className="h-[48.95px] top-[130.05px]"
           pclassName=" bg-[#467966]"
           onClick={rotateSnakeC}
@@ -255,7 +240,7 @@ const GameView: React.FC = () => {
               alt="Flower Decoration"
             />
 
-            <div className="absolute w-[188px] h-[223px] top-[126px] left-[141px]">
+            <div className="button slide-left absolute w-[188px] h-[223px] top-[126px] left-[141px]">
               <ButtonElementComponent
                 id="buttonA"
                 text="A"
@@ -280,7 +265,6 @@ const GameView: React.FC = () => {
             />
 
             <SnakeComponent className="snake1 opacity-1" />
-            {/*rotate-[16deg] A   rotate-[4deg] B rotate-[-10deg] C  */}
             <ImageComponent
               src="src/Resources/Images/eagle.png"
               className=" eagle absolute w-[119px] h-[221px] top-[182px] left-[340px] opacity-0"

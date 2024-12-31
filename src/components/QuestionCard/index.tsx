@@ -16,7 +16,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   imageClassName = "w-[78px] h-[78px] absolute mr-2",
 }) => {
   return (
-    <div className="absolute left-[calc(50%-355px/2-11px)] w-[355px] h-[79px]  top-[158px] text-center">
+    <div className="slide-down absolute left-[calc(50%-355px/2-11px)] w-[355px] h-[79px]  top-[158px] text-center">
       <div className="relative z-[1]">
         <ImageComponent
           src={imageSrc}
