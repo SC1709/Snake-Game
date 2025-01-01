@@ -4,17 +4,17 @@ interface optionProps {
   text: string;
   option: string;
   className?: string; 
-  id?: string;  // Added the id field here
+  id?: string;  
   pclassName?: string; 
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void; // onClick handler
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void; 
 }
 
 const OptionCard: React.FC<optionProps> = ({ text, option, className, pclassName, id, onClick }) => {
   return (
-    <div className="slide-right absolute w-[345px] h-[179px] top-[279px] left-[24px]" >
+    <div className="absolute w-[345px] h-[179px] top-[279px] left-[24px]" >
       <div 
-        id={id}  // Assign the id to the div element
-        className={`absolute bg-white w-[345px] rounded-[25px] cursor-pointer ${className}`} 
+        id={id}  
+        className={`slide-right absolute bg-white w-[345px] rounded-[25px] cursor-pointer ${className}`} 
         onClick={onClick}
       >
         <div className="absolute w-[27px] h-[27px] top-[11.95px] left-[12px]">
