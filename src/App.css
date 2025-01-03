@@ -75,6 +75,7 @@
 
 .snake {
   animation: snakeMove 2s linear forwards;
+  animation-delay: 1.6s;
 }
 
 .snake1 {

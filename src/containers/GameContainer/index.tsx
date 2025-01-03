@@ -170,7 +170,7 @@ const GameContainer = () => {
     moveSnake(targetId, isOptionC);
     setTimeout(() => {
       changeBackgroundColor(clickedElement, isCorrect, correctAnswerId);
-    }, 3200);
+    }, 3400);
 
     if (isCorrect) {
       makeTargetInvisible(targetId);
