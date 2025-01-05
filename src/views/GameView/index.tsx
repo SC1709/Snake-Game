@@ -68,7 +68,7 @@ const GameView: React.FC<GameViewProps> = ({
               alt="Flower Decoration"
             />
 
-            <div className="slide-left absolute w-[188px] h-[223px] top-[126px] left-[141px]">
+            <div className="button-element slide-left absolute w-[188px] h-[223px] top-[126px] left-[141px]">
               <ButtonElementComponent
                 id="buttonA"
                 text="A"

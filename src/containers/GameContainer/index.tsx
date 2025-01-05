@@ -158,6 +158,20 @@ const GameContainer = () => {
       correctElement.classList.add("correct-answer");
     }
   };
+  const triggerReverseAnimations = () => {
+    const question = document.querySelector(".question-card") as HTMLElement;
+    const options = document.querySelectorAll(".option-card") as NodeListOf<HTMLElement>;
+    const buttons = document.querySelectorAll(".button-element") as NodeListOf<HTMLElement>;
+    // Apply reverse animation classes
+    if (question) {
+      question.classList.add("slide-DownReverse");
+    }
+    options.forEach((option) => option.classList.add("slide-leftReverse"));
+    
+  buttons.forEach((button) => {
+    button.classList.add("button-slide-reverse");
+  });
+  };
   const rotateSnake = (
     e: React.MouseEvent<HTMLDivElement>,
     targetId: string,
@@ -170,7 +184,7 @@ const GameContainer = () => {
     moveSnake(targetId, isOptionC);
     setTimeout(() => {
       changeBackgroundColor(clickedElement, isCorrect, correctAnswerId);
-    }, 3400);
+    }, 3500);
 
     if (isCorrect) {
       makeTargetInvisible(targetId);
@@ -180,8 +194,16 @@ const GameContainer = () => {
       setTimeout(() => {
         moveSnakeBack();
       }, 5500);
+      // Trigger reverse animations after snake moves back
+    setTimeout(() => {
+      triggerReverseAnimations();
+    }, 7200);
     } else {
       setTimeout(() => moveEagle(targetId), 1500);
+       // Trigger reverse animations after eagle movement
+    setTimeout(() => {
+      triggerReverseAnimations();
+    }, 8400);
     }
   };
 

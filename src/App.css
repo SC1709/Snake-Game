@@ -218,3 +218,49 @@
   animation-delay: 1.2s;
 }
 
+/* Reverse animations for question and options */
+.slide-DownReverse {
+  animation: slideDownReverse 1s ease-in-out forwards;
+}
+
+@keyframes slideDownReverse {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.slide-leftReverse {
+  animation: slideLeftReverse 1s ease-in-out forwards;
+}
+
+@keyframes slideLeftReverse {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+/* Reverse slide-right animation for buttons */
+.button-slide-reverse {
+  animation: buttonSlideReverse 1s ease-in-out forwards;
+}
+
+@keyframes buttonSlideReverse {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}

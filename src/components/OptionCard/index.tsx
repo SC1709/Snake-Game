@@ -14,7 +14,7 @@ const OptionCard: React.FC<optionProps> = ({ text, option, className, pclassName
     <div className="absolute w-[345px] h-[179px] top-[279px] left-[24px]" >
       <div 
         id={id}  
-        className={`slide-right absolute bg-white w-[345px] rounded-[25px] cursor-pointer ${className}`} 
+        className={`option-card slide-right absolute bg-white w-[345px] rounded-[25px] cursor-pointer ${className}`} 
         onClick={onClick}
       >
         <div className="absolute w-[27px] h-[27px] top-[11.95px] left-[12px]">
