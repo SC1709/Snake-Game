@@ -139,25 +139,24 @@ const GameContainer = () => {
       snake.style.transform = isOptionC ? "rotate(200deg)" : "rotate(140deg)";
     }
   };
+
   const changeBackgroundColor = (
     clickedElement: HTMLElement,
-    isCorrect: boolean,
     correctAnswerId: string
   ) => {
     const correctElement = document.querySelector(
       `#${correctAnswerId}`
     ) as HTMLElement;
 
-    if (isCorrect) {
-      clickedElement.classList.add("correct-answer");
-    } else {
-      clickedElement.classList.add("wrong-answer");
-    }
+    clickedElement.classList.add(
+      clickedElement.id === correctAnswerId ? "correct-answer" : "wrong-answer"
+    );
     // Always highlight the correct option
     if (correctElement) {
       correctElement.classList.add("correct-answer");
     }
   };
+
   const triggerReverseAnimations = () => {
     const question = document.querySelector(".question-card") as HTMLElement;
     const options = document.querySelectorAll(".option-card") as NodeListOf<HTMLElement>;
@@ -172,21 +171,24 @@ const GameContainer = () => {
     button.classList.add("button-slide-reverse");
   });
   };
+
   const rotateSnake = (
     e: React.MouseEvent<HTMLDivElement>,
-    targetId: string,
-    isCorrect: boolean,
     correctAnswerId: string,
     isOptionC: boolean = false
   ) => {
     const clickedElement = e.currentTarget as HTMLElement;
+    console.log(clickedElement.id);
+    //changed option id i.e clicked option to its corresponding element
+    const targetId = clickedElement.id.replace("Option", "button"); 
+    console.log(targetId);
 
     moveSnake(targetId, isOptionC);
     setTimeout(() => {
-      changeBackgroundColor(clickedElement, isCorrect, correctAnswerId);
+      changeBackgroundColor(clickedElement,  correctAnswerId);
     }, 3500);
 
-    if (isCorrect) {
+    if (clickedElement.id === correctAnswerId) {
       makeTargetInvisible(targetId);
       setTimeout(() => {
         rotateSnakeMovement(isOptionC);
@@ -208,11 +210,11 @@ const GameContainer = () => {
   };
 
   const rotateSnakeA = (e: React.MouseEvent<HTMLDivElement>) =>
-    rotateSnake(e, "buttonA", true, "OptionA");
+    rotateSnake(e,   "OptionA");
   const rotateSnakeB = (e: React.MouseEvent<HTMLDivElement>) =>
-    rotateSnake(e, "buttonB", false, "OptionA");
+    rotateSnake(e,  "OptionA");
   const rotateSnakeC = (e: React.MouseEvent<HTMLDivElement>) =>
-    rotateSnake(e, "buttonC", false, "OptionA", true);
+    rotateSnake(e, "OptionA", true);
 
   return (
     <div>
