@@ -3,7 +3,7 @@ import ImageComponent from "../ImageComponent";
  
 
 interface QuestionCardProps {
-  text: string;
+  text: any;
   imageSrc: string;
   imageAlt: string;
   imageClassName?: string;

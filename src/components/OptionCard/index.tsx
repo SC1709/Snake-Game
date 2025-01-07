@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface optionProps {
-  text: string;
+  text: any;
   option: string;
   className?: string; 
   id?: string;  

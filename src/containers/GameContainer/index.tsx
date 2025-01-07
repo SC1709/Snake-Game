@@ -1,6 +1,30 @@
+import { useState } from "react";
 import GameView from "../../views/GameView";
 
+const questionsString = localStorage.getItem("questions") || "[]";
+
+const questions = JSON.parse(questionsString);
+
+// console.log(questions);
+const transformQuestionFormat = (question: any) => {
+  return {
+    question: question.question,
+    options: question.options.map((option: any, index: number) => ({
+      optionContent: option,
+      isCorrect: index === question.correctOptionsIndex,
+    })),
+  };
+};
+
 const GameContainer = () => {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const currentQuestion = transformQuestionFormat(
+    questions[currentQuestionIndex]
+  );
+  console.log(currentQuestion);
+  
+  
+
   const moveSnake = (
     targetId: string,
     isOptionC: boolean = false
@@ -53,7 +77,7 @@ const GameContainer = () => {
         targetId === "buttonA"
           ? "rotate(16deg)"
           : targetId === "buttonB"
-          ? "rotate(4deg)"
+          ? "rotate(2deg)"
           : "rotate(-6deg)";
 
       // Move eagle to the snake
@@ -119,6 +143,7 @@ const GameContainer = () => {
       }, 3500);
     }
   };
+  
   const moveSnakeBack = () => {
     const snake = document.querySelector(".snake1") as HTMLElement;
     if (snake) {
@@ -215,10 +240,13 @@ const GameContainer = () => {
     rotateSnake(e,  "OptionA");
   const rotateSnakeC = (e: React.MouseEvent<HTMLDivElement>) =>
     rotateSnake(e, "OptionA", true);
+  
 
   return (
     <div>
       <GameView
+      options={currentQuestion.options}
+      question={currentQuestion.question}
         rotateSnakeA={rotateSnakeA}
         rotateSnakeB={rotateSnakeB}
         rotateSnakeC={rotateSnakeC}
