@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GameView from "../../views/GameView";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setGameScore, setTotalQuestion } from "../../redux/rootSlice";
 
 const questionsString = localStorage.getItem("questions") || "[]";
-
 const questions = JSON.parse(questionsString);
+console.log(questions);
 
-// console.log(questions);
 const transformQuestionFormat = (question: any) => {
   return {
     question: question.question,
@@ -13,22 +15,25 @@ const transformQuestionFormat = (question: any) => {
       optionContent: option,
       isCorrect: index === question.correctOptionsIndex,
     })),
+    correctAnswerId: `Option${String.fromCharCode(
+      65 + question.correctOptionsIndex
+    )}`, // Map index to OptionA, OptionB, etc.
   };
 };
 
 const GameContainer = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [isReverseAnimationsDone, setReverseAnimationsDone] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const currentQuestion = transformQuestionFormat(
     questions[currentQuestionIndex]
   );
   console.log(currentQuestion);
-  
-  
 
-  const moveSnake = (
-    targetId: string,
-    isOptionC: boolean = false
-  ) => {
+  const moveSnake = (targetId: string, isOptionC: boolean = false) => {
     const snake = document.querySelector(".snake1") as HTMLElement;
     const target = document.querySelector(`#${targetId}`) as HTMLElement;
 
@@ -70,7 +75,7 @@ const GameContainer = () => {
   const moveEagle = (targetId: string) => {
     const snake = document.querySelector(".snake1") as HTMLElement;
     const eagle = document.querySelector(".eagle") as HTMLElement;
-    const flower = document.querySelector(".flower-image") as HTMLElement; 
+    const flower = document.querySelector(".flower-image") as HTMLElement;
 
     if (snake && eagle && flower) {
       const eagleRotation =
@@ -143,7 +148,7 @@ const GameContainer = () => {
       }, 3500);
     }
   };
-  
+
   const moveSnakeBack = () => {
     const snake = document.querySelector(".snake1") as HTMLElement;
     if (snake) {
@@ -152,7 +157,7 @@ const GameContainer = () => {
       snake.style.left = `${originalPosition.left}px`;
       snake.style.top = `${originalPosition.top}px`;
       setTimeout(() => {
-        snake.style.opacity = "0"; 
+        snake.style.opacity = "0";
       }, 1800);
     }
   };
@@ -184,36 +189,52 @@ const GameContainer = () => {
 
   const triggerReverseAnimations = () => {
     const question = document.querySelector(".question-card") as HTMLElement;
-    const options = document.querySelectorAll(".option-card") as NodeListOf<HTMLElement>;
-    const buttons = document.querySelectorAll(".button-element") as NodeListOf<HTMLElement>;
+    const options = document.querySelectorAll(
+      ".option-card"
+    ) as NodeListOf<HTMLElement>;
+    const buttons = document.querySelectorAll(
+      ".button-element"
+    ) as NodeListOf<HTMLElement>;
     // Apply reverse animation classes
     if (question) {
       question.classList.add("slide-DownReverse");
     }
     options.forEach((option) => option.classList.add("slide-leftReverse"));
-    
-  buttons.forEach((button) => {
-    button.classList.add("button-slide-reverse");
-  });
+
+    buttons.forEach((button) => {
+      button.classList.add("button-slide-reverse");
+    });
+
+    setTimeout(() => {
+      setReverseAnimationsDone(true);
+    }, 1000);
   };
 
   const rotateSnake = (
     e: React.MouseEvent<HTMLDivElement>,
-    correctAnswerId: string,
     isOptionC: boolean = false
   ) => {
+    if (isReverseAnimationsDone) return;
     const clickedElement = e.currentTarget as HTMLElement;
     console.log(clickedElement.id);
+
+    // Get the correct answer ID from the current question
+    const correctAnswerId = currentQuestion.correctAnswerId;
     //changed option id i.e clicked option to its corresponding element
-    const targetId = clickedElement.id.replace("Option", "button"); 
+    const targetId = clickedElement.id.replace("Option", "button");
     console.log(targetId);
 
     moveSnake(targetId, isOptionC);
     setTimeout(() => {
-      changeBackgroundColor(clickedElement,  correctAnswerId);
+      changeBackgroundColor(clickedElement, correctAnswerId);
     }, 3500);
 
     if (clickedElement.id === correctAnswerId) {
+      setScore((prevScore) => {
+        const newScore = prevScore + 1;
+        console.log("Updated Score:", newScore);
+        return newScore;
+      });
       makeTargetInvisible(targetId);
       setTimeout(() => {
         rotateSnakeMovement(isOptionC);
@@ -222,31 +243,46 @@ const GameContainer = () => {
         moveSnakeBack();
       }, 5500);
       // Trigger reverse animations after snake moves back
-    setTimeout(() => {
-      triggerReverseAnimations();
-    }, 7200);
+      setTimeout(() => {
+        triggerReverseAnimations();
+      }, 7200);
     } else {
       setTimeout(() => moveEagle(targetId), 1500);
-       // Trigger reverse animations after eagle movement
-    setTimeout(() => {
-      triggerReverseAnimations();
-    }, 8400);
+      // Trigger reverse animations after eagle movement
+      setTimeout(() => {
+        triggerReverseAnimations();
+      }, 8400);
     }
   };
 
-  const rotateSnakeA = (e: React.MouseEvent<HTMLDivElement>) =>
-    rotateSnake(e,   "OptionA");
-  const rotateSnakeB = (e: React.MouseEvent<HTMLDivElement>) =>
-    rotateSnake(e,  "OptionA");
+  const rotateSnakeA = (e: React.MouseEvent<HTMLDivElement>) => rotateSnake(e);
+  const rotateSnakeB = (e: React.MouseEvent<HTMLDivElement>) => rotateSnake(e);
   const rotateSnakeC = (e: React.MouseEvent<HTMLDivElement>) =>
-    rotateSnake(e, "OptionA", true);
-  
+    rotateSnake(e, true);
+
+  const loadNextQuestion = () => {
+    setReverseAnimationsDone(false);
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    } else {
+      dispatch(setGameScore(score));
+      dispatch(setTotalQuestion(questions.length));
+      console.log("Quiz completed!");
+      navigate("/result");
+    }
+  };
+  useEffect(() => {
+    if (isReverseAnimationsDone) {
+      loadNextQuestion(); // Load the next question after the animation timeout
+    }
+  }, [isReverseAnimationsDone]);
 
   return (
     <div>
       <GameView
-      options={currentQuestion.options}
-      question={currentQuestion.question}
+        key={currentQuestionIndex}
+        options={currentQuestion.options}
+        question={currentQuestion.question}
         rotateSnakeA={rotateSnakeA}
         rotateSnakeB={rotateSnakeB}
         rotateSnakeC={rotateSnakeC}

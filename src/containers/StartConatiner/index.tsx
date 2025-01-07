@@ -49,7 +49,7 @@ const StartPageContainer: React.FC = () => {
           "Who is considered the father of theoretical computer science and artificial intelligence?",
       },
       {
-        correctOptionsIndex: 3,
+        correctOptionsIndex: 2,
         options: ["Bill Gates", "Steve Jobs", "Mark Zuckerberg", "Elon Musk"],
         question:
           "Who founded SpaceX and is known for his work in the field of space exploration and electric vehicles?",

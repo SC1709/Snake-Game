@@ -2,7 +2,15 @@ import React from "react";
 import ResultBox from "../../components/ResultBoxComponent";
 import SnakeComponent from "../../components/SnakeComponent";
 
-const ResultView: React.FC = () => {
+interface ResultViewProps {
+  answer?: number;
+  incorrect?: number;
+}
+
+const ResultView: React.FC<ResultViewProps> = ({
+  answer,
+  incorrect,
+}) => {
   return (
     <>
       <div className="snake-container flex flex-col items-center background-green relative">
@@ -15,12 +23,12 @@ const ResultView: React.FC = () => {
        
         <ResultBox
           text="Wrong"
-          answer="2"
+          answer={incorrect ? incorrect : 0}
           className="slide-left left-[212px] bg-[#D8002F]"
         />
         <ResultBox
           text="Right"
-          answer="3"
+          answer={answer ? answer : 0}
           className="slide-right left-[54px] bg-[#078F14]"
         />
       </div>

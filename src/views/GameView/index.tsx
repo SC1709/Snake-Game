@@ -12,7 +12,6 @@ interface GameViewProps {
   rotateSnakeC: (e: React.MouseEvent<HTMLDivElement>) => void;
   options?: any;
   question?: string;
-  // rotateSnakeD: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const GameView: React.FC<GameViewProps> = ({
@@ -21,12 +20,11 @@ const GameView: React.FC<GameViewProps> = ({
   rotateSnakeC,
   options,
   question,
-  // rotateSnakeD,
 }) => {
   return (
     <>
       <div className="snake-container flex flex-col items-center background-green relative">
-        <div className="absolute top-4 right-4 flex flex-col items-center space-y-4">
+        <div className="absolute top-2 right-2 flex flex-col items-center space-y-4">
           <ImageComponent
             src="src/Resources/Images/icon.png"
             className="w-[65px] h-[142px]"
@@ -43,7 +41,7 @@ const GameView: React.FC<GameViewProps> = ({
           text={options[0].optionContent}
           option="A"
           id="OptionA"
-          className="h-[49px] relative z-10"
+          className="h-[49px] top-[8.03px] relative z-10"
           pclassName=" bg-[#D8002F] "
           onClick={rotateSnakeA}
         />
@@ -51,7 +49,7 @@ const GameView: React.FC<GameViewProps> = ({
           text={options[1].optionContent}
           option="B"
           id="OptionB"
-          className="h-[48.95px] top-[65.03px] relative z-10"
+          className="h-[48.95px] top-[68.03px] relative z-10"
           pclassName=" bg-[#FFCC3E]"
           onClick={rotateSnakeB}
         />
@@ -59,20 +57,10 @@ const GameView: React.FC<GameViewProps> = ({
           text={options[2].optionContent}
           option="C"
           id="OptionC"
-          // className="h-[48.95px] top-[130.05px] relative z-10"
           className="h-[48.95px] top-[130.05px]"
           pclassName=" bg-[#467966]"
           onClick={rotateSnakeC}
         />
-        {/* <OptionCard
-          text="Subash Chandra Bose"
-          option="C"
-          id="OptionD"
-          className="h-[48.95px] top-[195.05px]"
-          pclassName=" bg-[#467966]"
-          onClick={rotateSnakeD}
-        /> */}
-{/* mt-[520px] */}
         <div className="flex flex-col items-center mt-[450px] relative">
           {/* Top Sticks */}
           <TopSticks className="stick2 flex justify-start mb-0 w-full h-[28px] relative" />
@@ -94,11 +82,6 @@ const GameView: React.FC<GameViewProps> = ({
                 text="B"
                 className="bg-[#FFCC3E] top-[74px]"
               />
-                {/* <ButtonElementComponent
-                  id="buttonD"
-                  text="D"
-                  className="bg-[#467966] top-[84px] right-[20px]"
-                /> */}
               <ButtonElementComponent
                 id="buttonC"
                 text="C"

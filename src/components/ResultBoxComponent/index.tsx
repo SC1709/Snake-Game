@@ -1,7 +1,7 @@
 import React from "react";
 
 interface BoxProps {
-  answer: string;
+  answer: number;
   text: string;
   className?: string;
 }
