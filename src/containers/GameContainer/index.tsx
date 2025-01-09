@@ -9,15 +9,20 @@ const questions = JSON.parse(questionsString);
 console.log(questions);
 
 const transformQuestionFormat = (question: any) => {
+  const allOptions = question.options;
+  const correctIndex = question.correctOptionsIndex;
+  const firstTwoOptions = allOptions.slice(0, 2);
+  const thirdOption = correctIndex === 3 ? allOptions[3] : allOptions[2];
+  const selectedOptions = [...firstTwoOptions, thirdOption];
+  // Find the new index of the correct answer in the selected options
+  const newCorrectIndex = selectedOptions.indexOf(allOptions[correctIndex]);
   return {
     question: question.question,
-    options: question.options.map((option: any, index: number) => ({
+    options: selectedOptions.map((option, index) => ({
       optionContent: option,
-      isCorrect: index === question.correctOptionsIndex,
+      isCorrect: index === newCorrectIndex,
     })),
-    correctAnswerId: `Option${String.fromCharCode(
-      65 + question.correctOptionsIndex
-    )}`, // Map index to OptionA, OptionB, etc.
+    correctAnswerId: `Option${String.fromCharCode(65 + newCorrectIndex)}`, // Map to OptionA, OptionB, etc.
   };
 };
 
@@ -25,6 +30,7 @@ const GameContainer = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [isReverseAnimationsDone, setReverseAnimationsDone] = useState(false);
+  const [isOptionClicked, setOptionClicked] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -214,7 +220,8 @@ const GameContainer = () => {
     e: React.MouseEvent<HTMLDivElement>,
     isOptionC: boolean = false
   ) => {
-    if (isReverseAnimationsDone) return;
+    if (isReverseAnimationsDone || isOptionClicked) return;
+    setOptionClicked(true);
     const clickedElement = e.currentTarget as HTMLElement;
     console.log(clickedElement.id);
 
@@ -262,6 +269,7 @@ const GameContainer = () => {
 
   const loadNextQuestion = () => {
     setReverseAnimationsDone(false);
+    setOptionClicked(false);
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     } else {

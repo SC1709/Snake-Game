@@ -28,7 +28,7 @@ const StartPageContainer: React.FC = () => {
     "questions",
     JSON.stringify([
       {
-        correctOptionsIndex: 0,
+        correctOptionsIndex: 3,
         options: [
           "Brendan Eich",
           "Tim Berners-Lee",
@@ -38,7 +38,7 @@ const StartPageContainer: React.FC = () => {
         question: "Who created JavaScript in 1995?",
       },
       {
-        correctOptionsIndex: 2,
+        correctOptionsIndex: 3,
         options: [
           "Ada Lovelace",
           "Charles Babbage",
